@@ -20,7 +20,6 @@ def random_labelled_image(
     # TODO:
     #  Implement according to the docstring description.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
     # ========================
     return image, label
 
