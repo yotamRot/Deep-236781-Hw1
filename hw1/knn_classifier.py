@@ -31,13 +31,16 @@ class KNNClassifier(object):
         #     y_train.
         #  2. Save the number of classes as n_classes.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        x_train, y_train = next(iter(dl_train))
+        n_classes = len(y_train.unique())
+
         # ========================
 
         self.x_train = x_train
         self.y_train = y_train
         self.n_classes = n_classes
         return self
+
 
     def predict(self, x_test: Tensor):
         """
@@ -47,7 +50,7 @@ class KNNClassifier(object):
         """
 
         # Calculate distances between training and test samples
-        dist_matrix = l2_dist(self.x_train, x_test)
+        dist_matrix = l2_dist(self.x_train, x_test).T
 
         # TODO:
         #  Implement k-NN class prediction based on distance matrix.
@@ -63,7 +66,9 @@ class KNNClassifier(object):
             #  - Set y_pred[i] to the most common class among them
             #  - Don't use an explicit loop.
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            _, top_indices = dist_matrix[i].topk(k=self.k, largest=False, dim=0)
+            labels = self.y_train[top_indices]
+            y_pred[i] = torch.bincount(labels).argmax()
             # ========================
 
         return y_pred
@@ -91,7 +96,12 @@ def l2_dist(x1: Tensor, x2: Tensor):
 
     dists = None
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    N1 = x1.size(dim=0)
+    N2 = x2.size(dim=0)
+    x1_pow = (x1**2).sum(dim=1).view(N1, 1)
+    x2_pow = (x2**2).sum(dim=1).view(1, N2)
+    x1_dot_x2 = x1@x2.T
+    dists = np.sqrt(x1_pow + x2_pow - 2*x1_dot_x2)
     # ========================
 
     return dists
@@ -111,7 +121,7 @@ def accuracy(y: Tensor, y_pred: Tensor):
     # TODO: Calculate prediction accuracy. Don't use an explicit loop.
     accuracy = None
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    accuracy = torch.sum(y == y_pred) / len(y)
     # ========================
 
     return accuracy
