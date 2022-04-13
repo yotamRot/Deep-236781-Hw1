@@ -1,0 +1,1 @@
+1. Check in part1 create random image min max (should include max value) image should be until 255?
