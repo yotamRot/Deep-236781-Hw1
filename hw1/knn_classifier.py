@@ -31,16 +31,14 @@ class KNNClassifier(object):
         #     y_train.
         #  2. Save the number of classes as n_classes.
         # ====== YOUR CODE: ======
-        x_train, y_train = next(iter(dl_train))
+        x_train, y_train = dataloader_utils.flatten(dl_train)
         n_classes = len(y_train.unique())
-
         # ========================
 
         self.x_train = x_train
         self.y_train = y_train
         self.n_classes = n_classes
         return self
-
 
     def predict(self, x_test: Tensor):
         """
@@ -98,10 +96,10 @@ def l2_dist(x1: Tensor, x2: Tensor):
     # ====== YOUR CODE: ======
     N1 = x1.size(dim=0)
     N2 = x2.size(dim=0)
-    x1_pow = (x1**2).sum(dim=1).view(N1, 1)
-    x2_pow = (x2**2).sum(dim=1).view(1, N2)
-    x1_dot_x2 = x1@x2.T
-    dists = np.sqrt(x1_pow + x2_pow - 2*x1_dot_x2)
+    x1_pow = (x1 ** 2).sum(dim=1).view(N1, 1)
+    x2_pow = (x2 ** 2).sum(dim=1).view(1, N2)
+    x1_dot_x2 = x1 @ x2.T
+    dists = np.sqrt(x1_pow + x2_pow - 2 * x1_dot_x2)
     # ========================
 
     return dists
@@ -140,19 +138,30 @@ def find_best_k(ds_train: Dataset, k_choices, num_folds):
     """
 
     accuracies = []
-
+    ds_size = len(ds_train)
+    all_indices = set(range(ds_size))
+    fold_size = ds_size // num_folds
     for i, k in enumerate(k_choices):
         model = KNNClassifier(k)
-
         # TODO:
         #  Train model num_folds times with different train/val data.
         #  Don't use any third-party libraries.
         #  You can use your train/validation splitter from part 1 (note that
         #  then it won't be exactly k-fold CV since it will be a
         #  random split each iteration), or implement something else.
-
+        k_acc = []
+        print(k)
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        for j in range(num_folds):
+            cur_validation_indices = set(range(j*fold_size, (j+1) * fold_size))
+            cur_train_indices = all_indices.difference(cur_validation_indices)
+            train_data_loader = torch.utils.data.DataLoader(dataset=ds_train, sampler=torch.utils.data.sampler.SubsetRandomSampler(list(cur_train_indices)))
+            model.train(train_data_loader)
+            validation_data_loader = torch.utils.data.DataLoader(dataset=ds_train, sampler=torch.utils.data.sampler.SubsetRandomSampler(list(cur_validation_indices)))
+            x_validation, y_validation = dataloader_utils.flatten(validation_data_loader)
+            y_predication = model.predict(x_validation)
+            k_acc.append(accuracy(y_validation, y_predication))
+        accuracies.append(k_acc)
         # ========================
 
     best_k_idx = np.argmax([np.mean(acc) for acc in accuracies])
