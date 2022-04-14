@@ -154,7 +154,7 @@ class SubsetDataset(Dataset):
         #  Raise an IndexError if index is out of bounds.
         # ====== YOUR CODE: ======
         if index >= self.subset_len:
-            raise IndexError
+            raise IndexError("given index: " + str(index) + " dataset size: " + str(self.subset_len))
         return self.source_dataset[self.offset + index]
         # ========================
 

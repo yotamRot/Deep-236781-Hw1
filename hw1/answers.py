@@ -41,26 +41,27 @@ should be an independent set that is used only to check our model. Our friend co
 part2_q1 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+As seen in plotted graph increasing k improved generalization for unseen data until k=3. Also we give same amount of 
+effect on result for all k neighbors not depending on their distance from new instance. This means that when we 
+enlarge k we give less influence for the close important neighbors in it will damaged the result. In extreme when 
+k=length(dataset) all new instance will get same label and there will no meaning for the distance and being a 
+neighbour. 
 
 """
 
 part2_q2 = r"""
 **Your answer:**
 
+1. I we would choose hyper parameter k based on our train-set accuracy we would get k=1 for sure! 
+   This would happen because using k=1 will give loss function zero because we compare instance label to himself.
+   The problem with this behavior is that we over fit our data and we are not making much less generalized model.
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+2. If we were Using test-set to find the best $\k it will cause an over-fitting to the test-set although it
+    should be an independent set that is used only to check our model. 
+    This way we will get good result for test-set accuracy but our generalization would be damaged and it will
+    effect our abilty to label unseen data. Meaning that test set should be an independent set from the learning and
+    hypermarket process.
+
 
 """
 

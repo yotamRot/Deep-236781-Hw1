@@ -52,7 +52,7 @@ class SVMHingeLoss(ClassifierLoss):
 
         loss = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        M = x_scores - x_scores
         # ========================
 
         # TODO: Save what you need for gradient calculation in self.grad_ctx
