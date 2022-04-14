@@ -52,12 +52,22 @@ class SVMHingeLoss(ClassifierLoss):
 
         loss = None
         # ====== YOUR CODE: ======
-        M = x_scores - x_scores
+        # get score for each sample chosen label: size N
+        N = x_scores.shape[0]
+        chosen_scored = x_scores[range(0, N), y].reshape(((-1, 1)))
+        # use broadcast to create matrix
+        M = x_scores - chosen_scored + self.delta
+        # ignore unwanted vals -  negetive values AND correct classes values
+        zeroes = torch.zeros(M.shape)
+        M = torch.where((M < 0) | (M == self.delta), zeroes, M)
+
+        # calc loss
+        loss = M.sum() / N
         # ========================
 
         # TODO: Save what you need for gradient calculation in self.grad_ctx
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        # raise NotImplementedError()
         # ========================
 
         return loss
