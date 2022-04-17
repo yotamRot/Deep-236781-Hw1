@@ -67,7 +67,9 @@ class SVMHingeLoss(ClassifierLoss):
 
         # TODO: Save what you need for gradient calculation in self.grad_ctx
         # ====== YOUR CODE: ======
-        # raise NotImplementedError()
+        self.grad_ctx['x'] = x
+        self.grad_ctx['y'] = y
+        self.grad_ctx['M'] = M
         # ========================
 
         return loss
@@ -85,7 +87,19 @@ class SVMHingeLoss(ClassifierLoss):
 
         grad = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        x = self.grad_ctx['x']
+        y = self.grad_ctx['y']
+        # num of sampels
+        N = x.shape[0]
+        M_grad = self.grad_ctx['M']
+        # convert M to binary matrix of 1 if elemnt is non zero
+        M_grad[M_grad > 0] = 1
+        # coefficient for Xi is 1 where w is not true label so current M_grad is fine for them
+
+        # coefficient for Xi where w is the true label - should sum all cur column
+        M_grad[range(0, N), y] = -torch.sum(M_grad, dim=1)
+        # multiply x by correct coefficient
+        grad = (x.T)@M_grad / N
         # ========================
 
         return grad

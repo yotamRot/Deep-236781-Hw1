@@ -86,10 +86,15 @@ class LinearClassifier(object):
         train_res = Result(accuracy=[], loss=[])
         valid_res = Result(accuracy=[], loss=[])
 
+        num_of_batches_train = len(dl_train)
+        num_of_batches_valid = len(dl_valid)
+
         print("Training", end="")
         for epoch_idx in range(max_epochs):
-            total_correct = 0
-            average_loss = 0
+            total_correct_train = 0
+            average_loss_train = 0
+            total_correct_val = 0
+            average_loss_val = 0
 
             # TODO:
             #  Implement model training loop.
@@ -103,7 +108,28 @@ class LinearClassifier(object):
             #     using the weight_decay parameter.
 
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            ## train
+            for x_batch, y_batch in dl_train:
+                predictions, scores = self.predict(x_batch)
+                average_loss_train += loss_fn.loss(x_batch, y_batch, scores, predictions)
+                total_correct_train += self.evaluate_accuracy(y_batch, predictions)
+                grad_max = weight_decay * self.weights + learn_rate * loss_fn.grad()
+                self.weights -= grad_max
+            train_res.loss.append(average_loss_train / num_of_batches_train)
+            train_res.accuracy.append(total_correct_train / num_of_batches_train)
+
+            #validation
+            for x_batch, y_batch in dl_valid:
+                predictions, scores = self.predict(x_batch)
+                average_loss_val += loss_fn.loss(x_batch, y_batch, scores, predictions)
+                total_correct_val += self.evaluate_accuracy(y_batch, predictions)
+            valid_res.loss.append(average_loss_val / num_of_batches_valid)
+            valid_res.accuracy.append(total_correct_val / num_of_batches_valid)
+
+
+
+
+
             # ========================
             print(".", end="")
 
@@ -122,22 +148,24 @@ class LinearClassifier(object):
         # TODO:
         #  Convert the weights matrix into a tensor of images.
         #  The output shape should be (n_classes, C, H, W).
-
+        w_images = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        W = self.weights
+        if has_bias:
+            W = W[1:]
+        w_images = W.view((self.n_classes,) + img_shape)
         # ========================
 
         return w_images
 
 
 def hyperparams():
-    hp = dict(weight_std=0.0, learn_rate=0.0, weight_decay=0.0)
 
     # TODO:
     #  Manually tune the hyperparameters to get the training accuracy test
     #  to pass.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    hp = dict(weight_std=0.002, learn_rate=0.008, weight_decay=0.001)
     # ========================
 
     return hp
