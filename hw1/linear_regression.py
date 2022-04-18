@@ -100,7 +100,8 @@ class BiasTrickTransformer(BaseEstimator, TransformerMixin):
 
         xb = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        bias = np.ones((X.shape[0], 1))
+        xb = np.hstack((bias, X))
         # ========================
 
         return xb
@@ -163,7 +164,15 @@ def top_correlated_features(df: DataFrame, target_feature, n=5):
     # TODO: Calculate correlations with target and sort features by it
 
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    correlation = df.corr()[target_feature]
+    correlation = correlation.drop(target_feature, axis=0)
+    abs_correlation = abs(correlation)
+
+    top_n_features = abs_correlation.sort_values(ascending=False).index[:n]
+    top_n_features = list(top_n_features)
+
+    positions = correlation.loc[top_n_features]
+    top_n_corr = list(positions)
     # ========================
 
     return top_n_features, top_n_corr
@@ -179,7 +188,9 @@ def mse_score(y: np.ndarray, y_pred: np.ndarray):
 
     # TODO: Implement MSE using numpy.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    N = y.shape[0]
+    err = (y - y_pred)
+    mse = sum(np.power(err, 2)) / N
     # ========================
     return mse
 
@@ -194,7 +205,11 @@ def r2_score(y: np.ndarray, y_pred: np.ndarray):
 
     # TODO: Implement R^2 using numpy.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    N = y.shape[0]
+    err = (y - y_pred)
+    y_hat = y.mean()
+    avg_err = y - y_hat
+    r2 = 1 - (sum(np.power(err, 2)) / sum(np.power(avg_err, 2)))
     # ========================
     return r2
 
