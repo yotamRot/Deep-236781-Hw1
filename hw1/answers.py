@@ -41,27 +41,27 @@ should be an independent set that is used only to check our model. Our friend co
 part2_q1 = r"""
 **Your answer:**
 
-As seen in plotted graph increasing k improved generalization for unseen data until k=3. Also we give same amount of 
-effect on result for all k neighbors not depending on their distance from new instance. This means that when we 
-enlarge k we give less influence for the close important neighbors in it will damaged the result. In extreme when 
-k=length(dataset) all new instance will get same label and there will no meaning for the distance and being a 
-neighbour. 
-
+As seen in plotted graph increasing k improved generalization for unseen data until k=3. This means that when we 
+enlarge k (means k>3) we give less influence for the close important neighbors and get affected by irrelevant data, as 
+we can see it damaged the model generalization. In extreme example when k=length(dataset) all new instances will get 
+same label and there will no meaning for the distance and being a neighbour. This happened because that the closest 
+neighbor and the farthest neighbor has the same effect.
 """
 
 part2_q2 = r"""
 **Your answer:**
 
-1. I we would choose hyper parameter k based on our train-set accuracy we would get k=1 for sure! 
-   This would happen because using k=1 will give loss function zero because we compare instance label to himself.
-   The problem with this behavior is that we over fit our data and we are not making much less generalized model.
+1. If we would choose hyperparameter k based on our train-set accuracy we would get k=1 for sure! 
+   This would happen because using k=1 will give loss function zero because we compare each instance label only to 
+   himself therefore the minimum will be when k=1. The problem with this behavior is that we over fit our data and 
+   in this way we are making much less generalized model.
 
-2. If we were Using test-set to find the best $\k it will cause an over-fitting to the test-set although it
-    should be an independent set that is used only to check our model. 
-    This way we will get good result for test-set accuracy but our generalization would be damaged and it will
-    effect our abilty to label unseen data. Meaning that test set should be an independent set from the learning and
-    hypermarket process.
-
+2. If we were using test-set to find the best k it will cause an over-fitting to the test-set although it
+   should be an independent set that is used only to check our model. 
+   This way we will get good result for test-set accuracy but our generalization would be damaged since we fit the 
+   hyperparameter k to the test-set and it will effect our ability to label unseen data.
+   Meaning that test-set should be an independent set from the learning and choosing the hyperparameters.
+  
 
 """
 
