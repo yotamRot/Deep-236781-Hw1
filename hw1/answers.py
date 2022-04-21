@@ -72,40 +72,54 @@ part2_q2 = r"""
 
 part3_q1 = r"""
 **Your answer:**
+$\Delta$ represent the margin size between different classes. In SVM every sample that is inside the margin will suffer 
+from some penalty. When we are choosing the hyperplane to separate between two classes we can always multiply an 
+arbitrary constant to W (including bias) without changing the hyperplane it represents. Therefore changing $\Delta$ will
+not change the hyperplane.
 
+For Example:
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+ $\Delta_1 = 1$
+ 
+ $\Delta_2 = 2$
+ 
+ Two representations to the same hyperplane:
+ 
+ $W^TX - \Delta_1 = 0$
+ 
+ $2 W^TX - \Delta_2 = 0$
+
+meaning we can choose $\Delta$ in an arbitrary way and still get the same separation
 
 """
 
 part3_q2 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+1.  As we saw in weights_as_images() function, the model is trying to understand for each label which pixels are most 
+    likely to be white. Pixels in sample image will be given higher weight by the weight tensor that represent their
+    label. In this way we can understand some of the mistakes, when there was white pixels in places that the model 
+    has learned that its should be black in the label result.
+    
+2.  The difference between them is that in KNN we take in count just the K nearest neighbors but in SVM the result is
+    effected from all the data.
+    The similarity is that both of them predict based on geometric decisions.     
 
 """
 
 part3_q3 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+1.  From the way that our loss function graph converge to minimum we can understand that our learning rate was good.
+    If we would choose a bigger number we might jump to far and get a graph full of spikes because we had jump over 
+    the minimum. Therefore we are not converging to the minimum and just jumping from side to side.
+    If we choose a small number it should take a long time to find the minimum and we might get to the epoch limit 
+    before reaching to the minimum.
+    
+2.  We will say that our model is slightly overfitted to the training set.
+    We can see in the graph that the train-set accuracy is slightly better than the validation hence we over-fit to 
+    the train-set. We can see that the difference between valid and train is not too big therefore the overfitting is 
+    not so bad. 
 
 """
 

@@ -126,11 +126,8 @@ class LinearClassifier(object):
             valid_res.loss.append(average_loss_val / num_of_batches_valid)
             valid_res.accuracy.append(total_correct_val / num_of_batches_valid)
 
-
-
-
-
             # ========================
+
             print(".", end="")
 
         print("")
@@ -153,7 +150,7 @@ class LinearClassifier(object):
         W = self.weights
         if has_bias:
             W = W[1:]
-        w_images = W.view((self.n_classes,) + img_shape)
+        w_images = W.t().view((self.n_classes,) + img_shape)
         # ========================
 
         return w_images
@@ -165,7 +162,7 @@ def hyperparams():
     #  Manually tune the hyperparameters to get the training accuracy test
     #  to pass.
     # ====== YOUR CODE: ======
-    hp = dict(weight_std=0.002, learn_rate=0.008, weight_decay=0.001)
+    hp = dict(weight_std=0.002, learn_rate=0.01, weight_decay=0.001)
     # ========================
 
     return hp
