@@ -32,7 +32,7 @@ class LinearRegressor(BaseEstimator, RegressorMixin):
 
         y_pred = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        y_pred = np.dot(X, self.weights_)
         # ========================
 
         return y_pred
@@ -51,7 +51,12 @@ class LinearRegressor(BaseEstimator, RegressorMixin):
 
         w_opt = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        N = y.shape[0]
+        eye = np.eye(X.shape[1])
+        reg = self.reg_lambda * N * eye
+        reg[0][0] = 0
+        inv_mat = np.linalg.inv(np.add(np.dot(X.T, X), reg))
+        w_opt = np.dot(inv_mat, np.dot(X.T, y))
         # ========================
 
         self.weights_ = w_opt
@@ -77,7 +82,14 @@ def fit_predict_dataframe(
     """
     # TODO: Implement according to the docstring description.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    filtered_df = None
+    if feature_names is None:
+        filtered_df = df.drop([target_name], axis=1)
+    else:
+        filtered_df = df[feature_names]
+    X = np.array(filtered_df)
+    y = np.array(df[target_name])
+    y_pred = model.fit_predict(X, y)
     # ========================
     return y_pred
 
@@ -118,7 +130,7 @@ class BostonFeaturesTransformer(BaseEstimator, TransformerMixin):
         # TODO: Your custom initialization, if needed
         # Add any hyperparameters you need and save them as above
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        # no need
         # ========================
 
     def fit(self, X, y=None):
@@ -140,7 +152,7 @@ class BostonFeaturesTransformer(BaseEstimator, TransformerMixin):
 
         X_transformed = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        X_transformed = PolynomialFeatures(self.degree).fit_transform(X)
         # ========================
 
         return X_transformed
@@ -242,7 +254,27 @@ def cv_best_hyperparams(
     #  - You can use MSE or R^2 as a score.
 
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    best_params = None
+    best_mse = np.inf
+    k_fold = sklearn.model_selection.KFold(n_splits=k_folds, shuffle=True)
+
+    for d in degree_range:
+        for l in lambda_range:
+            params = {'linearregressor__reg_lambda': l, 'bostonfeaturestransformer__degree': d}
+            model.set_params(**params)
+            mse = 0
+
+            for train_idx, test_idx in k_fold.split(X):
+                X_train, X_test = X[train_idx], X[test_idx]
+                y_train, y_test = y[train_idx], y[test_idx]
+                model.fit(X_train, y_train)
+                score = mse_score(y_test, model.predict(X_test))
+                mse = mse + score
+
+            mse = mse / k_folds
+            if mse < best_mse:
+                best_mse = mse
+                best_params = params
     # ========================
 
     return best_params
