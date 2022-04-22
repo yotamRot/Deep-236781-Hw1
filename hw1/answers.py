@@ -148,8 +148,13 @@ part4_q2 = r"""
     features are still linear.
     
 2.  
-    
-    
+
+3. In the new model after adding non linear features the decision boundary will be a hyperplane in the space
+   created by original and new features. 
+   This happens since we can look at new features as more features in higher level space. So we can find
+   hyperplane which will separate our data in this higher space.
+   But in relation to old parameters new decision boundary will not be linear so it will not be a hyperplane
+   (also it have more dimensions then original space).   
 
 
 """
