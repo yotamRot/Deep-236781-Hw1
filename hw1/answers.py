@@ -131,26 +131,26 @@ part3_q3 = r"""
 part4_q1 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+The ideal pattern of the residual plot should be a random scatter of points forming a pretty symmetrically distributed, 
+approximately constant minimum width band, around the 0. Residual 0 means that the guess was exactly correct, if it 
+occurred on the train-set we might have over-fit.
+According to the $R^2$ score that was 0.68 we can see that that result is not so good.
+After using CV we can see that the result has improved, $R^2$ score on the train-set was 0.93 and with test-set was 0.86.
+We can also see this result in the residual plot that after the CV the points are scatter more closely around the 0.  
 
 """
 
 part4_q2 = r"""
 **Your answer:**
 
+1.  In linear regression the linear is about the parameters of the model and not the data. Therefore even when adding 
+    non-linear features to the data our model remains linear model because the coefficients/weights associated with the 
+    features are still linear.
+    
+2.  
+    
+    
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
 
 """
 
