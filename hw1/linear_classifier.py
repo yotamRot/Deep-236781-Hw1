@@ -45,7 +45,7 @@ class LinearClassifier(object):
 
         y_pred, class_scores = None, None
         # ====== YOUR CODE: ======
-        class_scores = x@self.weights
+        class_scores = torch.matmul(x, self.weights)
         y_pred = torch.argmax(class_scores, dim=1)
         # ========================
 
@@ -115,6 +115,7 @@ class LinearClassifier(object):
                 total_correct_train += self.evaluate_accuracy(y_batch, predictions)
                 grad_max = weight_decay * self.weights + learn_rate * loss_fn.grad()
                 self.weights -= grad_max
+            ## calc loss and accuracy
             train_res.loss.append(average_loss_train / num_of_batches_train)
             train_res.accuracy.append(total_correct_train / num_of_batches_train)
 
@@ -123,6 +124,7 @@ class LinearClassifier(object):
                 predictions, scores = self.predict(x_batch)
                 average_loss_val += loss_fn.loss(x_batch, y_batch, scores, predictions)
                 total_correct_val += self.evaluate_accuracy(y_batch, predictions)
+            ## calc loss and accuracy
             valid_res.loss.append(average_loss_val / num_of_batches_valid)
             valid_res.accuracy.append(total_correct_val / num_of_batches_valid)
 
