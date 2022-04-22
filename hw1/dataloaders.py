@@ -30,7 +30,8 @@ class FirstLastSampler(Sampler):
         for i in range(size // 2):
             yield my_list[i]
             yield my_list[(size - 1) - i]
-        if len(self.data_source) % 2 == 1:
+        ## yield middle element in case not event size
+        if size % 2 == 1:
             yield my_list[size // 2]
         # ========================
 

@@ -98,7 +98,7 @@ def l2_dist(x1: Tensor, x2: Tensor):
     N2 = x2.size(dim=0)
     x1_pow = (x1 ** 2).sum(dim=1).view(N1, 1)
     x2_pow = (x2 ** 2).sum(dim=1).view(1, N2)
-    x1_dot_x2 = x1 @ x2.T
+    x1_dot_x2 = torch.matmul(x1, x2.T)
     dists = np.sqrt(x1_pow + x2_pow - 2 * x1_dot_x2)
     # ========================
 
@@ -149,19 +149,18 @@ def find_best_k(ds_train: Dataset, k_choices, num_folds):
         #  You can use your train/validation splitter from part 1 (note that
         #  then it won't be exactly k-fold CV since it will be a
         #  random split each iteration), or implement something else.
-        k_acc = []
-        print(k)
+        cur_acc = []
         # ====== YOUR CODE: ======
         for j in range(num_folds):
             cur_validation_indices = set(range(j*fold_size, (j+1) * fold_size))
             cur_train_indices = all_indices.difference(cur_validation_indices)
             train_data_loader = torch.utils.data.DataLoader(dataset=ds_train, sampler=torch.utils.data.sampler.SubsetRandomSampler(list(cur_train_indices)))
-            model.train(train_data_loader)
             validation_data_loader = torch.utils.data.DataLoader(dataset=ds_train, sampler=torch.utils.data.sampler.SubsetRandomSampler(list(cur_validation_indices)))
+            model.train(train_data_loader)
             x_validation, y_validation = dataloader_utils.flatten(validation_data_loader)
             y_predication = model.predict(x_validation)
-            k_acc.append(accuracy(y_validation, y_predication))
-        accuracies.append(k_acc)
+            cur_acc.append(accuracy(y_validation, y_predication))
+        accuracies.append(cur_acc)
         # ========================
 
     best_k_idx = np.argmax([np.mean(acc) for acc in accuracies])
