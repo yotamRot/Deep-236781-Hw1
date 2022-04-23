@@ -31,8 +31,7 @@ part1_q2 = r"""
 This approach is not justified! although adding regularization term is a good way to improve over-fitting on the 
 training-set this is not the way to do it. Our friend used the test-set to find the best $\lambda$ but the test-set
 should not be used to find hyper parameters because in this way he is doing an over-fitting to the test-set and it
-should be an independent set that is used only to check our model. Our friend could use a cross validation for example.
-  
+should be an independent set that is used only to check our model.
 """
 
 # ==============
@@ -42,8 +41,8 @@ part2_q1 = r"""
 **Your answer:**
 
 As seen in plotted graph increasing k improved generalization for unseen data until k=3. This means that when we 
-enlarge k (means k>3) we give less influence for the close important neighbors and get affected by irrelevant data, as 
-we can see it damaged the model generalization. In extreme example when k=length(dataset) all new instances will get 
+enlarge k (means k>3) we give less influence for the close important neighbors and get affected by unimportant data, 
+as we can see it damaged the model generalization. In extreme example when k=length(dataset) all new instances will get 
 same label and there will no meaning for the distance and being a neighbour. This happened because that the closest 
 neighbor and the farthest neighbor has the same effect.
 """
@@ -51,7 +50,7 @@ neighbor and the farthest neighbor has the same effect.
 part2_q2 = r"""
 **Your answer:**
 
-1. If we would choose hyperparameter k based on our train-set accuracy we would get k=1 for sure! 
+1. If we would choose hyperparameter k based on our train-set accuracy we would get best results for k=1 for sure. 
    This would happen because using k=1 will give loss function zero because we compare each instance label only to 
    himself therefore the minimum will be when k=1. The problem with this behavior is that we over fit our data and 
    in this way we are making much less generalized model.
