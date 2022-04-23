@@ -147,7 +147,10 @@ part4_q2 = r"""
     non-linear features to the data our model remains linear model because the coefficients/weights associated with the 
     features are still linear.
     
-2.  
+2.  Yes we can, the features after the non linear transform can be a new data that is non-linear. Although that data has 
+    changed,the model remained linear, so we can find linear regression between the transformed data (the data after the 
+    non-linear function) to the coefficients of each feature (because the coefficients/weights associated with the 
+    features are still linear)
 
 3. In the new model after adding non linear features the decision boundary will be a hyperplane in the space
    created by original and new features. 
@@ -155,20 +158,20 @@ part4_q2 = r"""
    hyperplane which will separate our data in this higher space.
    But in relation to old parameters new decision boundary will not be linear so it will not be a hyperplane
    (also it have more dimensions then original space).   
-
-
 """
 
 part4_q3 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+1.  Lambda is the hyper-parameter that control the power of the regularization term. When using logspace we are getting 
+    numbers in log scale meaning we get a distribution of more low values and less high values.
+    Linescale gives numbers in equal distribution from given range.
+    As we learn regularization term tend to be very small positive number therefore we would like to check more low values
+    of lambda but also check some high numbers to make sure we don't miss the best one.
+    So logscale is used because it fits those demands.
+    
+2.  We have checked 20 values of lambda, 3 values of degree and the number of folds was 3. So for each combination of 
+    those values we fitted the model to the data, Therefore we get:  $ 20 * 3 * 3 = 180 $ times.
 
 """
 
