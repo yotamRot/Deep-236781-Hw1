@@ -41,7 +41,7 @@ part2_q1 = r"""
 **Your answer:**
 
 As seen in plotted graph increasing k improved generalization for unseen data until k=3. This means that when we 
-enlarge k (means k>3) we give less influence for the close important neighbors and get affected by unimportant data, 
+enlarge k (means k>3) we give less influence for the close important neighbors and get affected by unrelated data, 
 as we can see it damaged the model generalization. In extreme example when k=length(dataset) all new instances will get 
 same label and there will no meaning for the distance and being a neighbour. This happened because that the closest 
 neighbor and the farthest neighbor has the same effect.
