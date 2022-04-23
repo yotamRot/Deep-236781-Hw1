@@ -264,9 +264,9 @@ def cv_best_hyperparams(
             model.set_params(**params)
             mse = 0
 
-            for train_id, test_id in k_fold.split(X):
-                X_train, X_test = X[train_id], X[test_id]
-                y_train, y_test = y[train_id], y[test_id]
+            for id_train, id_test in k_fold.split(X):
+                X_train, X_test = X[id_train], X[id_test]
+                y_train, y_test = y[id_train], y[id_test]
                 model.fit(X_train, y_train)
                 score = mse_score(y_test, model.predict(X_test))
                 mse = mse + score
